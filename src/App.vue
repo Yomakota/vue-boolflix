@@ -1,28 +1,30 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <HeaderPage />
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
 
+import HeaderPage from './components/HeaderPage.vue'
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    HeaderPage,
+  },
+  data() {
+    return {
+      http: 'https://api.themoviedb.org/3/search/',
+      apikey: '86f3788548eab8efa8a450f86c015b29',
+      body_request: 'movie',
+      query: 'signore',
+    };
+  },
+  methods: {
+
   }
 }
 </script>
 
 <style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
 </style>
