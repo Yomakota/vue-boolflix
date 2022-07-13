@@ -1,2 +1,7 @@
 @import '~bootstrap/scss/bootstrap';
 @import '../assets/vars.scss';
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+
+body {
+    background-color: $bg-color;
+}

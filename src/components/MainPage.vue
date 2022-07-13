@@ -1,24 +1,22 @@
 <template>
     <main>
-        <div class="container d-flex my-5">
-            <div v-if="movies || tvs">
-                <div v-show="movies">
-                    <div v-if="movies.length > 0" class="row row-cols-5">
-                        <CardComponent v-for="(card, index) in movies" :key="index + '-' + card.id" :info="card" />
-                    </div>
-                    <div v-else>
-
-                    </div>
-                </div>
-                <div v-show="tvs">
-                    <div v-if="tvs.length > 0" class="row row-cols-5">
-                        <CardComponent v-for="(card, index) in tvs" :key="index + '-' + card.id" :info="card" />
-                    </div>
-                    <div v-else>
-
-                    </div>
-                </div>
-            </div>
+        <div class="container">
+            <section id="movies">
+                <h2 v-if="movies.length > 0" class="text-center text-uppercase my-3 p-2">
+                    Movies
+                </h2>
+                <ul class="row g-5 row-cols-3">
+                    <CardComponent v-for="(card, index) in movies" :key="index + card.id" :info="card" />
+                </ul>
+            </section>
+            <section id="tv-series">
+                <h2 v-if="tvs.length > 0" class="text-center text-uppercase my-3 p-2">
+                    TV Series
+                </h2>
+                <ul class="row g-5 row-cols-3">
+                    <CardComponent v-for="(card, index) in tvs" :key="index + card.id" :info="card" />
+                </ul>
+            </section>
         </div>
     </main>
 </template>
@@ -35,4 +33,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '../assets/style.scss';
+
+h2 {
+    font-family: $font-family;
+    background-color: $header-color;
+    color: $title-text;
+}
 </style>

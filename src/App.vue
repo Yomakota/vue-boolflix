@@ -17,16 +17,10 @@ export default {
     MainPage,
   },
   data() {
-    // https://api.themoviedb.org/3/search/movie?api_key=86f3788548eab8efa8a450f86c015b29&language=en-US&query=
-    // https://api.themoviedb.org/3/search/tv?api_key=86f3788548eab8efa8a450f86c015b29&language=it_IT&query=
-    // https://image.tmdb.org/t/p/w342
     return {
       httpRequest: 'https://api.themoviedb.org/3/search/',
-      bodyRequest: 'movie?',
-      bodyRequestTv: 'tv?',
-      api_key: 'api_key=86f3788548eab8efa8a450f86c015b29&',
+      api_key: '86f3788548eab8efa8a450f86c015b29',
       language: 'en-US',
-      query: 'query=',
       searchText: '',
       movies: [],
       tvs: [],
@@ -40,28 +34,39 @@ export default {
       this.searchTV();
     },
     searchMovie() {
+      const bodyRequest = 'movie';
+      const parameters = {
+        api_key: this.api_key,
+        language: this.language,
+        query: this.searchText,
+      };
 
-      axios.get(`${this.httpRequest}${this.bodyRequest}${this.api_key}${this.query}${this.searchText}`)
+      axios.get(`${this.httpRequest}${bodyRequest}`, { params: parameters })
         .then((result) => {
           this.movies = result.data.results;
+          console.log(this.movies);
         })
         .catch((error) => console.log(error));
     },
     searchTV() {
-      axios.get(`${this.httpRequest}${this.bodyRequestTv}${this.api_key}${this.query}${this.searchText}`)
+      const bodyRequest = 'tv';
+      const parameters = {
+        api_key: this.api_key,
+        language: this.language,
+        query: this.searchText,
+      };
+
+      axios.get(`${this.httpRequest}${bodyRequest}`, { params: parameters })
         .then((result) => {
           this.tvs = result.data.results;
+          console.log(this.tvs);
         })
         .catch((error) => console.log(error));
-    }
+    },
   },
 };
 </script>
 
 <style lang="scss">
 @import './assets/style.scss';
-
-body {
-  background-color: $bg-color;
-}
 </style>

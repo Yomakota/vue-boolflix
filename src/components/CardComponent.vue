@@ -1,32 +1,39 @@
 <template>
-    <div id="cards">
-        <div class="card position-relative text-center d-flex flex-column align-items-center">
-            <div class=" img-container m-3">
-                <img :src="loadPoster" :alt="info.title" class="w-100 h-100 border border-5 border-dark">
+    <li id="cards" class="h-100">
+        <div class="card position-relative d-flex flex-column">
+            <div class=" img-container border border-3 border-white">
+                <img :src="loadPoster" :alt="info.title" class="img-fluid w-100 h-100">
             </div>
-            <div class="overlay position-absolute w-100 h-100">
-                <div class="info h-100 p-2 flex-column">
-                    <h2>
-                        Title: {{ (info.title) ? info.title : info.name }}
-                    </h2>
-                    <h3>
-                        Original title: {{ (info.original_title) ? info.original_title : info.original_name }}
-                    </h3>
+            <div class="overlay text-start position-absolute w-100 h-100 p-3">
+                <div class="info h-100 pt-5">
+                    <div class="title">
+                        <span class="fw-bold fs-6">Title:</span>
+                        <span class="fs-6"> {{ (info.title) ? info.title : info.name }} </span>
+                    </div>
+                    <div class="original-tile">
+                        <span class="fw-bold fs-6">Original Title:</span>
+                        <span class="fs-6">{{ (info.original_title) ? info.original_title : info.original_name
+                        }}</span>
+                    </div>
                     <LangFlag :iso="info.original_language" v-if="setFlag" />
-                    <h4 class="text-center" v-else>
-                        <p>unknown language</p>
-                    </h4>
+                    <div v-else>
+                        <span class="fw-bold">Unknown Language</span>
+                    </div>
                     <div class="vote">
-                        <div class="stars d-flex justify-content-center">
-                            <span> Rating: </span>
+                        <div class="stars">
+                            <span class="text-rating fw-bold fs-6"> Rating: </span>
                             <i v-for="element in 5" :key="element"
                                 :class="(element <= ((Math.round(rating)) / 2)) ? 'fas fa-star' : 'far fa-star'" />
                         </div>
                     </div>
+                    <div class="overview">
+                        <span class="fw-bold fs-6">Overview:</span>
+                        <span class="fs-6"> {{ info.overview }} </span>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    </li>
 </template>
 
 <script>
@@ -41,19 +48,20 @@ export default {
     props: ['info'],
     data() {
         return {
-            urlPoster: 'https://image.tmdb.org/t/p/w342',
+            urlPoster: 'https://image.tmdb.org/t/p/original',
             posterPath: this.info.poster_path,
             rating: this.info.vote_average,
         };
     },
     computed: {
         setFlag() {
-            if (this.info.original_language === 'sv' ||
-                this.info.original_language === 'no' ||
-                this.info.original_language === 'nl') {
-                return false;
+            if (this.info.original_language === 'it' ||
+                this.info.original_language === 'en' ||
+                this.info.original_language === 'us' ||
+                this.info.original_language === 'ko') {
+                return true;
             }
-            return true;
+            return false;
         },
         loadPoster() {
             if (this.posterPath === null) {
@@ -68,24 +76,23 @@ export default {
 <style lang="scss">
 @import '../assets/style.scss';
 
-.cards {
-    height: 100%;
-    overflow: hidden;
-}
-
 .card {
     color: white;
 
     .img-container {
-        height: 300px;
-
-        img {
-            height: 100%;
-        }
+        height: 600px;
     }
 
     .overlay {
         display: none;
+
+        .stars {
+            color: $stars;
+
+            .text-rating {
+                color: white;
+            }
+        }
     }
 }
 
