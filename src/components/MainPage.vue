@@ -2,7 +2,7 @@
     <main>
         <div class="container position-relative">
             <section id="movies">
-                <h2 v-if="movies.length > 0" class="text-center text-uppercase my-3 p-2">
+                <h2 v-if="movies.length" class="text-center text-uppercase my-3 p-2">
                     Movies
                 </h2>
                 <ul class="row g-5 row-cols-3">
@@ -10,7 +10,7 @@
                 </ul>
             </section>
             <section id="tv-series">
-                <h2 v-if="tvs.length > 0" class="text-center text-uppercase my-3 p-2">
+                <h2 v-if="tvs.length" class="text-center text-uppercase my-3 p-2">
                     TV Series
                 </h2>
                 <ul class="row g-5 row-cols-3">

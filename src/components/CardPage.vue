@@ -10,14 +10,16 @@
                         <span class="fw-bold fs-6">Title:</span>
                         <span class="fs-6"> {{ (info.title) ? info.title : info.name }} </span>
                     </div>
-                    <div class="original-tile pb-1">
+                    <div class="original-title pb-1">
                         <span class="fw-bold fs-6">Original Title:</span>
                         <span class="fs-6">{{ (info.original_title) ? info.original_title : info.original_name
                         }}</span>
                     </div>
-                    <LangFlag :iso="info.original_language" v-if="setFlag" />
-                    <div v-else>
-                        <span class="fw-bold">Unknown Language</span>
+                    <div class="language pb-1">
+                        <LangFlag :iso="info.original_language" v-if="setFlag" />
+                        <div v-else>
+                            <span class="fw-bold">Unknown Language</span>
+                        </div>
                     </div>
                     <div class="vote pb-1">
                         <div class="stars">
@@ -26,18 +28,34 @@
                                 :class="(element <= ((Math.round(rating)) / 2)) ? 'fas fa-star' : 'far fa-star'" />
                         </div>
                     </div>
-                    <div class="overview pb-1" v-if="info.overview !== ''">
-                        <span class="fw-bold fs-6">Overview:</span>
-                        <span class="fs-6"> {{ info.overview }} </span>
+                    <div class="plot pb-1">
+                        <div v-if="more_info">
+                            <div class="overview pb-1" v-if="info.overview !== ''">
+                                <span class="fw-bold fs-6">Overview:</span>
+                                <span class="fs-6"> {{ info.overview }} </span>
+                            </div>
+                            <div v-else class="fw-bold fs-6">UnKnown Plot</div>
+                        </div>
                     </div>
-                    <div v-else class="fw-bold fs-6">UnKnown Plot</div>
-                    <div class="cast" v-if="getCast(id).length > 0">
-                        <span class="fw-bold fs-6">Cast:</span>
-                        <span class="fs-6" v-for="(element, index) in getCast(id)" :key="index">
-                            {{ element }}
-                        </span>
+                    <div class="casting pb-5">
+                        <div v-if="more_info">
+                            <div class="cast" v-if="getCast(id).length">
+                                <span class="fw-bold fs-6">Cast:</span>
+                                <span class="fs-6" v-for="(element, index) in getCast(id)" :key="index">
+                                    {{ element }}
+                                </span>
+                            </div>
+                            <div v-else class="fw-bold fs-6">UnKnown Cast</div>
+                        </div>
                     </div>
-                    <div v-else class="fw-bold fs-6">UnKnown Cast</div>
+                    <div id="btn-info" @click="more_info = !more_info">
+                        <div v-if="more_info">
+                            <button class="btn btn-danger">Less Info</button>
+                        </div>
+                        <div v-else>
+                            <button class="btn btn-danger">More Info</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -64,6 +82,7 @@ export default {
             api_key: '86f3788548eab8efa8a450f86c015b29',
             id: this.info.id,
             cast: [],
+            more_info: false,
         };
     },
     computed: {
