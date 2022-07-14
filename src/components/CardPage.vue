@@ -5,12 +5,12 @@
                 <img :src="loadPoster" :alt="info.title" class="img-fluid w-100 h-100">
             </div>
             <div class="overlay text-start position-absolute w-100 h-100 p-3">
-                <div class="info h-100 pt-5">
-                    <div class="title">
+                <div class="info h-100 pt-5 overflow-scroll">
+                    <div class="title pb-1">
                         <span class="fw-bold fs-6">Title:</span>
                         <span class="fs-6"> {{ (info.title) ? info.title : info.name }} </span>
                     </div>
-                    <div class="original-tile">
+                    <div class="original-tile pb-1">
                         <span class="fw-bold fs-6">Original Title:</span>
                         <span class="fs-6">{{ (info.original_title) ? info.original_title : info.original_name
                         }}</span>
@@ -19,17 +19,25 @@
                     <div v-else>
                         <span class="fw-bold">Unknown Language</span>
                     </div>
-                    <div class="vote">
+                    <div class="vote pb-1">
                         <div class="stars">
                             <span class="text-rating fw-bold fs-6"> Rating: </span>
                             <i v-for="element in 5" :key="element"
                                 :class="(element <= ((Math.round(rating)) / 2)) ? 'fas fa-star' : 'far fa-star'" />
                         </div>
                     </div>
-                    <div class="overview">
+                    <div class="overview pb-1" v-if="info.overview !== ''">
                         <span class="fw-bold fs-6">Overview:</span>
                         <span class="fs-6"> {{ info.overview }} </span>
                     </div>
+                    <div v-else class="fw-bold fs-6">UnKnown Plot</div>
+                    <div class="cast" v-if="getCast(id).length > 0">
+                        <span class="fw-bold fs-6">Cast:</span>
+                        <span class="fs-6" v-for="(element, index) in getCast(id)" :key="index">
+                            {{ element }}
+                        </span>
+                    </div>
+                    <div v-else class="fw-bold fs-6">UnKnown Cast</div>
                 </div>
             </div>
         </div>
@@ -39,18 +47,23 @@
 <script>
 import LangFlag from 'vue-lang-code-flags';
 import '@fortawesome/fontawesome-free/js/all.js';
+import axios from 'axios';
 
 export default {
     name: 'CardPage',
     components: {
         LangFlag,
     },
-    props: ['info'],
+    props: ['info', 'type'],
     data() {
         return {
             urlPoster: 'https://image.tmdb.org/t/p/original',
             posterPath: this.info.poster_path,
             rating: this.info.vote_average,
+            httpRequest: 'https://api.themoviedb.org/3/',
+            api_key: '86f3788548eab8efa8a450f86c015b29',
+            id: this.info.id,
+            cast: [],
         };
     },
     computed: {
@@ -69,6 +82,28 @@ export default {
             }
             return `${this.urlPoster}${this.posterPath}`
         },
+
+    },
+    methods: {
+        getCast(id) {
+            const bodyRequest = 'credits';
+            const parameters = {
+                api_key: this.api_key,
+            };
+            axios.get(`${this.httpRequest}${this.type}/${id}/${bodyRequest}`, { params: parameters })
+                .then((result) => {
+
+                    let castList = result.data.cast;
+                    this.cast = [];
+                    if (castList.length > 0) {
+                        for (let i = 0; i < 5; i++) {
+                            this.cast.push(castList[i].name);
+                        }
+                    }
+                })
+                .catch(() => console.clear());
+            return this.cast;
+        }
     },
 };
 </script>

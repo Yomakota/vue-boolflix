@@ -6,10 +6,9 @@
             </div>
             <div>
                 <div id="input" class="input-group">
-                    <input type="text" class="form-control" @keyup.enter="$emit('searchBTN', inputText)"
-                        v-model="inputText" placeholder="Search Movies or TV Series">
-                    <button type="button" class="btn btn-outline-danger p-2"
-                        @click="$emit('searchBTN', inputText)">Search
+                    <input type="text" class="form-control" @keyup.enter="sendInputText()" v-model="inputText"
+                        placeholder="Search Movies or TV Series">
+                    <button type="button" class="btn btn-outline-danger p-2" @click="sendInputText()">Search
                     </button>
                 </div>
             </div>
@@ -25,6 +24,12 @@ export default {
             inputText: '',
             logo: require('../assets/img/Netflix-Logo.jpg'),
         };
+    },
+    methods: {
+        sendInputText() {
+            this.$emit("sendText", this.inputText);
+            this.inputText = "";
+        },
     },
 };
 </script>

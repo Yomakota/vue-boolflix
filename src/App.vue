@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <HeaderPage @searchBTN="search" />
+    <HeaderPage @sendText="search" />
     <MainPage :movies="movies" :tvs="tvs" />
   </div>
 </template>
@@ -44,7 +44,6 @@ export default {
       axios.get(`${this.httpRequest}${bodyRequest}`, { params: parameters })
         .then((result) => {
           this.movies = result.data.results;
-          console.log(this.movies);
         })
         .catch((error) => console.log(error));
     },
@@ -59,7 +58,6 @@ export default {
       axios.get(`${this.httpRequest}${bodyRequest}`, { params: parameters })
         .then((result) => {
           this.tvs = result.data.results;
-          console.log(this.tvs);
         })
         .catch((error) => console.log(error));
     },
