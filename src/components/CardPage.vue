@@ -4,7 +4,7 @@
             <div class=" img-container border border-3 border-white">
                 <img :src="loadPoster" :alt="info.title" class="img-fluid w-100 h-100">
             </div>
-            <div class="overlay text-start position-absolute w-100 h-100 p-3">
+            <div class="overlay position-absolute text-start w-100 h-100 p-3">
                 <div class="info h-100 pt-5 overflow-scroll">
                     <div class="title pb-1">
                         <span class="fw-bold fs-6">Title:</span>
@@ -13,7 +13,7 @@
                     <div class="original-title pb-1">
                         <span class="fw-bold fs-6">Original Title:</span>
                         <span class="fs-6">{{ (info.original_title) ? info.original_title : info.original_name
-                        }}</span>
+                            }}</span>
                     </div>
                     <div class="language pb-1">
                         <LangFlag :iso="info.original_language" v-if="setFlag" />
@@ -75,7 +75,7 @@ export default {
     props: ['info', 'type'],
     data() {
         return {
-            urlPoster: 'https://image.tmdb.org/t/p/original',
+            urlPoster: 'https://image.tmdb.org/t/p/w342',
             posterPath: this.info.poster_path,
             rating: this.info.vote_average,
             httpRequest: 'https://api.themoviedb.org/3/',
@@ -134,7 +134,7 @@ export default {
     color: white;
 
     .img-container {
-        height: 600px;
+        height: 350px;
     }
 
     .overlay {
